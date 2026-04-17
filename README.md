@@ -3,7 +3,7 @@
 ファイルを更新時間で絞り込むシンプルなlsを拡張したCLIツール
 
 ![Rust](https://img.shields.io/badge/Rust-CLI-orange)
-![License](https://img.shields.io/badge/license-GPLv2-blue)
+[![License](https://img.shields.io/badge/license-GPLv2-blue)](LICENSE)
 ![Version](https://img.shields.io/badge/version-0.1.0-green)
 
 ## Overview
