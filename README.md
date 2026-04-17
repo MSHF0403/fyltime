@@ -2,6 +2,10 @@
 
 ファイルを更新時間で絞り込むシンプルなlsを拡張したCLIツール
 
+![Rust](https://img.shields.io/badge/Rust-CLI-orange)
+![License](https://img.shields.io/badge/license-GPLv2-blue)
+![Version](https://img.shields.io/badge/version-0.1.0-green)
+
 ## Overview
 fyltimeは、ディレクトリ内のファイルを走査し、更新日時に基づいてファイルを絞り込む軽量なCLIツールです。  
 複雑なコマンドを使用せず、直感的に古いファイルや最近更新されたファイルを抽出することを目的としています。  
