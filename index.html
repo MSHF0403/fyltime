@@ -1,0 +1,303 @@
+
+
+
+
+
+
+<!doctype html>
+<html
+  lang="ja"
+  dir="ltr"
+  class="scroll-smooth"
+  data-default-appearance="light"
+  data-auto-appearance="true"
+><head>
+	<meta name="generator" content="Hugo 0.163.3">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#FFFFFF" />
+  
+  <title>fyltime</title>
+    <meta name="title" content="fyltime" />
+  
+  
+  
+  
+  
+  <script
+    type="text/javascript"
+    src="https://MSHF0403.github.io/fyltime/js/appearance.min.8a082f81b27f3cb2ee528df0b0bdc39787034cf2cc34d4669fbc9977c929023c.js"
+    integrity="sha256-iggvgbJ/PLLuUo3wsL3Dl4cDTPLMNNRmn7yZd8kpAjw="
+  ></script>
+  
+  
+  
+  
+  
+  
+  
+  
+  <link
+    type="text/css"
+    rel="stylesheet"
+    href="https://MSHF0403.github.io/fyltime/css/main.bundle.min.77a79972dfd1fba3e37eaab972e5cf479aea24376fc39d827f5760735ebc834e.css"
+    integrity="sha256-d6eZct/R&#43;6Pjfqq5cuXPR5rqJDdvw52Cf1dgc168g04="
+  />
+  
+  
+  
+  
+  
+  
+  
+  <meta
+    name="description"
+    content="
+      Search files by modification time.
+    "
+  />
+  
+  
+  
+  
+    <link rel="canonical" href="https://MSHF0403.github.io/fyltime/" />
+  
+  <link rel="alternate" type="application/rss+xml" href="https://MSHF0403.github.io/fyltime/index.xml" title="fyltime" />
+  
+  
+    <link rel="apple-touch-icon" sizes="180x180" href="/fyltime/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/fyltime/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/fyltime/favicon-16x16.png" />
+    <link rel="manifest" href="/fyltime/site.webmanifest" />
+  
+  
+  
+  
+  
+  
+  
+  
+  <meta property="og:url" content="https://MSHF0403.github.io/fyltime/">
+	<meta property="og:site_name" content="fyltime">
+	<meta property="og:title" content="fyltime">
+	<meta property="og:description" content="Search files by modification time.">
+	<meta property="og:locale" content="ja">
+	<meta property="og:type" content="website">
+
+  
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="fyltime">
+	<meta name="twitter:description" content="Search files by modification time.">
+
+  
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": "https:\/\/MSHF0403.github.io\/fyltime\/",
+    "name": "fyltime",
+    
+    "inLanguage": "ja",
+    "url": "https:\/\/MSHF0403.github.io\/fyltime\/",
+    
+    "publisher" : {
+      "@type": "Person",
+      "name": ""
+    }
+  }
+  </script>
+
+
+  
+  
+  
+  
+  
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+
+
+  
+  
+</head>
+<body
+    class="m-auto flex h-screen max-w-7xl flex-col bg-neutral px-6 text-lg leading-7 text-neutral-900 dark:bg-neutral-800 dark:text-neutral sm:px-14 md:px-24 lg:px-32"
+  >
+    <div id="the-top" class="absolute flex self-center">
+      <a
+        class="-translate-y-8 rounded-b-lg bg-primary-200 px-3 py-1 text-sm focus:translate-y-0 dark:bg-neutral-600"
+        href="#main-content"
+        ><span class="pe-2 font-bold text-primary-600 dark:text-primary-400">&darr;</span
+        >メインコンテンツへスキップ</a
+      >
+    </div>
+    
+    
+      <header class="py-6 font-semibold text-neutral-900 dark:text-neutral sm:py-10 print:hidden">
+  <nav class="flex items-start justify-between sm:items-center">
+    
+    <div class="flex flex-row items-center">
+      
+  <a
+    class="decoration-primary-500 hover:underline hover:decoration-2 hover:underline-offset-2"
+    rel="me"
+    href="/fyltime/"
+    >fyltime</a
+  >
+
+    </div>
+    
+    
+  </nav>
+</header>
+
+    
+    <div class="relative flex grow flex-col">
+      <main id="main-content" class="grow">
+        
+  
+  
+    <article class="prose max-w-full dark:prose-invert">
+  
+    <header>
+      <h1>fyltime</h1>
+    </header>
+  
+  <section><h1 id="fyltime" class="relative group">fyltime <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#fyltime" aria-label="アンカー">#</a></span></h1><p><strong>fyltime</strong> は、更新日時や拡張子を条件としてファイルを検索するコマンドラインツールです。</p>
+<h2 id="features" class="relative group">Features <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#features" aria-label="アンカー">#</a></span></h2><ul>
+<li>Search files modified within a specified period (<code>--since</code>)</li>
+<li>Search files modified after a specified date (<code>--after</code>)</li>
+<li>Search files modified before a specified date (<code>--before</code>)</li>
+<li>Filter files by extension (<code>--ext</code>)</li>
+<li>Include hidden files (<code>--all</code>)</li>
+</ul>
+<h2 id="installation" class="relative group">Installation <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#installation" aria-label="アンカー">#</a></span></h2><p>Clone the repository and build with Cargo.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git clone https://github.com/MSHF0403/fyltime.git
+</span></span><span style="display:flex;"><span>cd fyltime
+</span></span><span style="display:flex;"><span>cargo build --release
+</span></span></code></pre></div><p>Or install directly with Cargo.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cargo install --path .
+</span></span></code></pre></div><h2 id="usage" class="relative group">Usage <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#usage" aria-label="アンカー">#</a></span></h2><p>Display files modified within the last three days.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>fyltime --since 3d
+</span></span></code></pre></div><p>Display Rust source files.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>fyltime --ext rs
+</span></span></code></pre></div><p>Display files modified after January 1, 2026.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>fyltime --after 2026-01-01
+</span></span></code></pre></div><p>Display files modified before January 1, 2026.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>fyltime --before 2026-01-01
+</span></span></code></pre></div><p>Include hidden files.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>fyltime --all
+</span></span></code></pre></div><p>Options can also be combined.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>fyltime --since 7d --ext rs --all
+</span></span></code></pre></div><h2 id="options" class="relative group">Options <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#options" aria-label="アンカー">#</a></span></h2><table>
+	<thead>
+			<tr>
+					<th>Option</th>
+					<th>Description</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><code>--since &lt;duration&gt;</code></td>
+					<td>Search files modified within the specified duration (e.g. <code>3d</code>, <code>12h</code>)</td>
+			</tr>
+			<tr>
+					<td><code>--after &lt;date&gt;</code></td>
+					<td>Search files modified after the specified date (<code>YYYY-MM-DD</code>)</td>
+			</tr>
+			<tr>
+					<td><code>--before &lt;date&gt;</code></td>
+					<td>Search files modified before the specified date (<code>YYYY-MM-DD</code>)</td>
+			</tr>
+			<tr>
+					<td><code>--ext &lt;extension&gt;</code></td>
+					<td>Search files with the specified extension</td>
+			</tr>
+			<tr>
+					<td><code>-a</code>, <code>--all</code></td>
+					<td>Include hidden files</td>
+			</tr>
+			<tr>
+					<td><code>-h</code>, <code>--help</code></td>
+					<td>Show help message</td>
+			</tr>
+			<tr>
+					<td><code>-v</code>, <code>--version</code></td>
+					<td>Show version information</td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="license" class="relative group">License <span class="absolute top-0 w-6 transition-opacity opacity-0 -start-6 not-prose group-hover:opacity-100"><a class="group-hover:text-primary-300 dark:group-hover:text-neutral-700" style="text-decoration-line: none !important;" href="#license" aria-label="アンカー">#</a></span></h2><p>MIT License.</p>
+</section>
+</article>
+<section>
+  
+
+</section>
+
+  
+
+      </main>
+      
+        <div
+          class="pointer-events-none absolute bottom-0 end-0 top-[100vh] w-12"
+          id="to-top"
+          hidden="true"
+        >
+          <a
+            href="#the-top"
+            class="pointer-events-auto sticky top-[calc(100vh-5.5rem)] flex h-12 w-12 items-center justify-center rounded-full bg-neutral/50 text-xl text-neutral-700 backdrop-blur hover:text-primary-600 dark:bg-neutral-800/50 dark:text-neutral dark:hover:text-primary-400"
+            aria-label="TOPへスクロール"
+            title="TOPへスクロール"
+          >
+            &uarr;
+          </a>
+        </div>
+      <footer class="py-10 print:hidden">
+  
+  
+  <div class="flex items-center justify-between">
+    <div>
+      
+      
+        <p class="text-sm text-neutral-500 dark:text-neutral-400">
+            &copy;
+            2026
+            
+        </p>
+      
+      
+      
+        <p class="text-xs text-neutral-500 dark:text-neutral-400">
+          
+          
+          Powered by <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500"
+            href="https://gohugo.io/" target="_blank" rel="noopener noreferrer">Hugo</a> &amp; <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500" href="https://github.com/jpanther/congo" target="_blank" rel="noopener noreferrer">Congo</a>
+        </p>
+      
+    </div>
+    <div class="flex flex-row items-center">
+      
+      
+      
+      
+    </div>
+  </div>
+  
+  
+</footer>
+
+    </div>
+  </body>
+</html>
