@@ -1,0 +1,7 @@
+baseURL = "https://MSHF0403.github.io/fyltime/"
+locale = "ja"
+title = "fyltime"
+
+[module]
+[[module.imports]]
+path = "github.com/jpanther/congo/v2"
