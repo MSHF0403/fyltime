@@ -1,31 +1,29 @@
 ---
 title: "fyltime"
-description: "Search files by modification time."
+description: "更新日時を条件にファイルを検索する。"
 ---
-
-# fyltime
 
 **fyltime** は、更新日時や拡張子を条件としてファイルを検索するコマンドラインツールです。
 
 ## Features
 
-- Search files modified within a specified period (`--since`)
-- Search files modified after a specified date (`--after`)
-- Search files modified before a specified date (`--before`)
-- Filter files by extension (`--ext`)
-- Include hidden files (`--all`)
+- 指定した期間内に更新されたファイルを検索 (`--since`)
+- 指定した日付以降に更新されたファイルを検索 (`--after`)
+- 指定した日付以前に更新されたファイルを検索 (`--before`)
+- 拡張子で絞り込み (`--ext`)
+- 隠しファイルを含めて検索 (`--all`)
 
 ## Installation
 
-Clone the repository and build with Cargo.
+リポジトリをクローンして、Cargoでビルドします。
 
 ```bash
-git clone https://github.com/MSHF0403/fyltime.git
-cd fyltime
+git clone https://github.com/MSHF0403/fyt.git
+cd fyt
 cargo build --release
 ```
 
-Or install directly with Cargo.
+または、Cargoから直接インストールできます。
 
 ```bash
 cargo install --path .
@@ -33,54 +31,54 @@ cargo install --path .
 
 ## Usage
 
-Display files modified within the last three days.
+直近3日以内に更新されたファイルを表示します。
 
 ```bash
-fyltime --since 3d
+fyt --since 3d
 ```
 
-Display Rust source files.
+Rustソースファイルを表示します。
 
 ```bash
-fyltime --ext rs
+fyt --ext rs
 ```
 
-Display files modified after January 1, 2026.
+2026年1月1日以降に更新されたファイルを表示します。
 
 ```bash
-fyltime --after 2026-01-01
+fyt --after 2026-01-01
 ```
 
-Display files modified before January 1, 2026.
+2026年1月1日以前に更新されたファイルを表示します。
 
 ```bash
-fyltime --before 2026-01-01
+fyt --before 2026-01-01
 ```
 
-Include hidden files.
+隠しファイルを含めて表示します。
 
 ```bash
-fyltime --all
+fyt --all
 ```
 
-Options can also be combined.
+オプションは組み合わせて使用できます。
 
 ```bash
-fyltime --since 7d --ext rs --all
+fyt --since 7d --ext rs --all
 ```
 
 ## Options
 
 | Option | Description |
 |--------|-------------|
-| `--since <duration>` | Search files modified within the specified duration (e.g. `3d`, `12h`) |
-| `--after <date>` | Search files modified after the specified date (`YYYY-MM-DD`) |
-| `--before <date>` | Search files modified before the specified date (`YYYY-MM-DD`) |
-| `--ext <extension>` | Search files with the specified extension |
-| `-a`, `--all` | Include hidden files |
-| `-h`, `--help` | Show help message |
-| `-v`, `--version` | Show version information |
+| `--since <duration>` | 指定した期間内に更新されたファイルを検索します（例: `3d`, `12h`） |
+| `--after <date>` | 指定した日付以降に更新されたファイルを検索します（`YYYY-MM-DD`） |
+| `--before <date>` | 指定した日付以前に更新されたファイルを検索します（`YYYY-MM-DD`） |
+| `--ext <extension>` | 指定した拡張子のファイルを検索します |
+| `-a`, `--all` | 隠しファイルを検索対象に含めます |
+| `-h`, `--help` | ヘルプを表示します |
+| `-v`, `--version` | バージョン情報を表示します |
 
 ## License
 
-MIT License.
+MITライセンスです。
