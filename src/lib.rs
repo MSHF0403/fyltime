@@ -1,28 +1,24 @@
 use chrono::NaiveDate;
 use std::fs;
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 use std::time::{Duration, SystemTime};
 
 pub mod config;
+mod gencomp;
 
 use crate::config::parse_args;
 
 pub const VERSION: &str = "0.1.0";
 
 pub fn run() {
-    let args: Vec<String> = std::env::args().collect();
+    let args = parse_args();
 
-    if args.iter().any(|a| a == "-h" || a == "--help") {
-        print_help();
+    if args.completions {
+        gencomp::generate(Path::new("completions"));
         return;
     }
 
-    if args.iter().any(|a| a == "-v" || a == "--version") {
-        println!("fyltime {}", VERSION);
-        return;
-    }
-
-    let config = parse_args(&args);
+    let config = args.to_config();
 
     let entries = match fs::read_dir(".") {
         Ok(entries) => entries,
@@ -121,22 +117,4 @@ pub fn is_hidden(path: &PathBuf) -> bool {
         .and_then(|name| name.to_str())
         .map(|name| name.starts_with('.'))
         .unwrap_or(false)
-}
-
-pub fn print_help() {
-    println!(
-        "\
-Usage:
-  fyltime [OPTION]
-
-OPTION:
-  --since <期間>         指定した期間以内に更新されたファイルを表示（例: 3d, 12h）
-  --after <日時>         指定した日時以降に更新されたファイルを表示（例: 2024-01-01）
-  --before <日時>        指定した日時以前に更新されたファイルを表示（例: 2024-01-01）
-  --ext <拡張子>         指定した拡張子のファイルのみ表示（例: rs, txt）
-  -a, --all              隠しファイルを含めて表示
-  -h, --help             ヘルプを表示
-  -v, --version          現在のバージョンを表示
-"
-    );
 }

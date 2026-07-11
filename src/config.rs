@@ -1,8 +1,9 @@
+use clap::Parser;
 use std::time::{Duration, SystemTime};
 
 use crate::{parse_date, parse_duration};
 
-#[derive(Default)]
+#[derive(Debug, Default)]
 pub struct Config {
     pub since: Option<Duration>,
     pub after: Option<SystemTime>,
@@ -11,46 +12,52 @@ pub struct Config {
     pub all: bool,
 }
 
-pub fn parse_args(args: &[String]) -> Config {
-    let mut config = Config::default();
-    let mut i = 1;
+#[derive(Debug, Parser)]
+#[command(
+    name = "fyt",
+    version,
+    about = "更新日時や拡張子を条件としてファイルを検索します"
+)]
+pub struct Args {
+    /// 指定した期間以内に更新されたファイルを表示します
+    #[arg(long, value_name = "DURATION")]
+    pub since: Option<String>,
 
-    while i < args.len() {
-        match args[i].as_str() {
-            "--since" => {
-                if i + 1 < args.len() {
-                    config.since = parse_duration(&args[i + 1]);
-                    i += 1;
-                }
-            }
-            "--after" => {
-                if i + 1 < args.len() {
-                    config.after = parse_date(&args[i + 1]);
-                    i += 1;
-                }
-            }
-            "--before" => {
-                if i + 1 < args.len() {
-                    config.before = parse_date(&args[i + 1]);
-                    i += 1;
-                }
-            }
-            "--ext" => {
-                if i + 1 < args.len() {
-                    config.ext = Some(args[i + 1].clone());
-                    i += 1;
-                }
-            }
-            "-a" | "--all" => {
-                config.all = true;
-            }
-            _ => {}
+    /// 指定した日付以降に更新されたファイルを表示します
+    #[arg(long, value_name = "DATE")]
+    pub after: Option<String>,
+
+    /// 指定した日付以前に更新されたファイルを表示します
+    #[arg(long, value_name = "DATE")]
+    pub before: Option<String>,
+
+    /// 指定した拡張子のファイルのみ表示します
+    #[arg(long, value_name = "EXTENSION")]
+    pub ext: Option<String>,
+
+    /// 隠しファイルを含めて表示します
+    #[arg(short = 'a', long)]
+    pub all: bool,
+
+    /// 補完ファイルを生成します
+    #[arg(long, default_value_t = false)]
+    pub completions: bool,
+}
+
+impl Args {
+    pub fn to_config(&self) -> Config {
+        Config {
+            since: self.since.as_deref().and_then(parse_duration),
+            after: self.after.as_deref().and_then(parse_date),
+            before: self.before.as_deref().and_then(parse_date),
+            ext: self.ext.clone(),
+            all: self.all,
         }
-
-        i += 1;
     }
+}
 
-    config
+pub fn parse_args() -> Args {
+    Args::parse()
 }
 
 #[cfg(test)]
@@ -80,38 +87,24 @@ mod tests {
 
     #[test]
     fn parse_args_ext() {
-        let args = vec![
-            "fyltime".to_string(),
-            "--ext".to_string(),
-            "rs".to_string(),
-        ];
-
-        let config = parse_args(&args);
+        let args = Args::try_parse_from(["fyt", "--ext", "rs"]).unwrap();
+        let config = args.to_config();
 
         assert_eq!(config.ext, Some("rs".to_string()));
     }
 
     #[test]
     fn parse_args_all() {
-        let args = vec![
-            "fyltime".to_string(),
-            "--all".to_string(),
-        ];
-
-        let config = parse_args(&args);
+        let args = Args::try_parse_from(["fyt", "--all"]).unwrap();
+        let config = args.to_config();
 
         assert!(config.all);
     }
 
     #[test]
     fn parse_args_since() {
-        let args = vec![
-            "fyltime".to_string(),
-            "--since".to_string(),
-            "3d".to_string(),
-        ];
-
-        let config = parse_args(&args);
+        let args = Args::try_parse_from(["fyt", "--since", "3d"]).unwrap();
+        let config = args.to_config();
 
         assert!(config.since.is_some());
     }

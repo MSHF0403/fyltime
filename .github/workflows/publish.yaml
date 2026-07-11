@@ -111,6 +111,10 @@ jobs:
           cargo install cargo-zigbuild
           cargo zigbuild --release --target ${{ matrix.target }}
 
+      - name: Generate completion files
+        run: |
+          cargo run -- --completions
+
       - name: Create distribution files
         run: |
           ASSET_NAME=${{ needs.setup.outputs.appname }}-${{ needs.setup.outputs.tag }}_${{ matrix.architecture }}_${{ matrix.os_name }}
@@ -119,6 +123,7 @@ jobs:
 
           cp target/${{ matrix.target }}/release/${{ needs.setup.outputs.appname }}${{ matrix.ext }} dist/$ASSET_NAME/
           cp README.md LICENSE dist/$ASSET_NAME/
+          cp -r completions dist/$ASSET_NAME/
 
           tar cvfz dist/${ASSET_NAME}.tar.gz -C dist $ASSET_NAME
 
