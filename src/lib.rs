@@ -45,7 +45,7 @@ pub fn run() {
             print_columns(&paths);
         }
         Err(error) => {
-            eprintln!("ディレクトリを読み込めません: {}", error);
+            eprintln!("ディレクトリを読み込めません: {error}");
         }
     }
 }
