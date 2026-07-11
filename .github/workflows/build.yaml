@@ -1,21 +1,17 @@
 name: build
-
 on:
   push:
     branches:
       - "**"
-
 jobs:
   build:
     runs-on: ${{ matrix.os }}
-
     strategy:
       matrix:
         os:
           - ubuntu-latest
-          - windows-latest
-          - macos-latest
-
+          - macOS-latest
+          # - windows-latest
     steps:
       - name: setup rust
         run: |
@@ -37,41 +33,8 @@ jobs:
           cargo llvm-cov --lcov --output-path coverage.lcov
 
       - name: coveralls
-        if: matrix.os == 'ubuntu-latest'
         uses: coverallsapp/github-action@v2
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.github_token }}
           path-to-lcov: coverage.lcov
-
-  container_image:
-    runs-on: ubuntu-latest
-    needs: build
-
-    permissions:
-      contents: read
-      packages: write
-
-    steps:
-      - name: checkout
-        uses: actions/checkout@v6
-        with:
-          fetch-depth: 0
-
-      - name: setup just
-        uses: extractions/setup-just@v4
-
-      - name: set up QEMU
-        uses: docker/setup-qemu-action@v3
-
-      - name: set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: log in to GHCR
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: build and push container
-        run: just container
+        if: matrix.os == 'ubuntu-latest'
