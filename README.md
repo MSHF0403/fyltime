@@ -4,7 +4,7 @@
 
 ![Rust](https://img.shields.io/badge/Rust-CLI-orange)
 [![License](https://img.shields.io/badge/license-GPLv2-blue)](LICENSE)
-![Version](https://img.shields.io/badge/version-0.1.0-green)
+![Version](https://img.shields.io/badge/version-0.1.2-green)
 [![Coverage Status](https://coveralls.io/repos/github/MSHF0403/fyltime/badge.svg?branch=main)](https://coveralls.io/github/MSHF0403/fyltime?branch=main)
 ![Build](https://github.com/MSHF0403/fyltime/actions/workflows/build.yaml/badge.svg)
 
