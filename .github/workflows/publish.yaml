@@ -31,7 +31,7 @@ jobs:
         id: vars
         run: |
           echo "tag=${GITHUB_HEAD_REF##*/v}" >> "$GITHUB_OUTPUT"
-          echo "appname=${GITHUB_REPOSITORY#*/}" >> "$GITHUB_OUTPUT"
+          echo "appname=fyltime" >> "$GITHUB_OUTPUT"
 
       - name: Set git identity
         run: |
@@ -67,28 +67,24 @@ jobs:
             target: aarch64-unknown-linux-gnu
             architecture: arm64
             os_name: linux
-            artifact_name: ${{ needs.setup.outputs.appname }}
             ext: ""
 
           - os: ubuntu-latest
             target: x86_64-unknown-linux-gnu
             architecture: amd64
             os_name: linux
-            artifact_name: ${{ needs.setup.outputs.appname }}
             ext: ""
 
           - os: macos-latest
             target: aarch64-apple-darwin
             architecture: arm64
             os_name: darwin
-            artifact_name: ${{ needs.setup.outputs.appname }}
             ext: ""
 
           - os: macos-latest
             target: x86_64-apple-darwin
             architecture: amd64
             os_name: darwin
-            artifact_name: ${{ needs.setup.outputs.appname }}
             ext: ""
 
     outputs:
