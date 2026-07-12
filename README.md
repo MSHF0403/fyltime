@@ -6,8 +6,7 @@
 [![License](https://img.shields.io/badge/license-GPLv2-blue)](LICENSE)
 ![Version](https://img.shields.io/badge/version-0.1.2-green)
 [![Coverage Status](https://coveralls.io/repos/github/MSHF0403/fyltime/badge.svg?branch=main&v=2)](https://coveralls.io/github/MSHF0403/fyltime?branch=main)
-![Build](https://github.com/MSHF0403/fyltime/actions/workflows/build.yaml/badge.svg)
-
+[![Build](https://github.com/MSHF0403/fyltime/actions/workflows/build.yaml/badge.svg?branch=main)](https://github.com/MSHF0403/fyltime/actions/workflows/build.yaml?query=branch%3Amain)
 ## Overview
 
 fyltimeは、ディレクトリ内のファイルを走査し、更新日時や拡張子などの条件でファイルを絞り込む軽量なCLIツールです。
