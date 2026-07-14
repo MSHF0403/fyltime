@@ -1,12 +1,13 @@
 //! `fyltime`は、更新日時や拡張子を条件として
-//! ファイルを検索するコマンドラインツールです。
+//! ファイルやディレクトリを検索するコマンドラインツールです。
 //!
 //! 更新期間、指定日より前後、拡張子、隠しファイルの有無を
-//! 条件としてファイルを絞り込めます。
+//! 条件として項目を絞り込めます。
 //!
 //! # Examples
 //!
 //! ```text
+//! fyt
 //! fyt --since 3d
 //! fyt --after 2026-01-01
 //! fyt --before 2026-12-31 --ext rs
@@ -18,6 +19,7 @@ use std::fs;
 use std::io;
 use std::path::{Path, PathBuf};
 use std::time::{Duration, SystemTime};
+use terminal_size::{Width, terminal_size};
 
 pub mod config;
 mod gencomp;
@@ -27,7 +29,7 @@ use crate::config::{Config, parse_args};
 /// `Cargo.toml`に設定されている現在のバージョンです。
 pub const VERSION: &str = env!("CARGO_PKG_VERSION");
 
-/// コマンドライン引数を読み取り、ファイル検索を実行します。
+/// コマンドライン引数を読み取り、項目の検索を実行します。
 pub fn run() {
     let args = parse_args();
 
@@ -40,9 +42,7 @@ pub fn run() {
 
     match search_files(Path::new("."), &config) {
         Ok(paths) => {
-            for path in paths {
-                println!("{}", path.display());
-            }
+            print_columns(&paths);
         }
         Err(error) => {
             eprintln!("ディレクトリを読み込めません: {}", error);
@@ -50,7 +50,10 @@ pub fn run() {
     }
 }
 
-/// 指定したディレクトリから、設定に一致するファイルを検索します。
+/// 指定したディレクトリから、設定に一致する項目を検索します。
+///
+/// オプションなしの場合は、ファイルとディレクトリの両方を返します。
+/// `--ext`が指定された場合は、該当する拡張子のファイルだけを返します。
 pub fn search_files(directory: &Path, config: &Config) -> io::Result<Vec<PathBuf>> {
     let entries = fs::read_dir(directory)?;
     let now = SystemTime::now();
@@ -59,18 +62,18 @@ pub fn search_files(directory: &Path, config: &Config) -> io::Result<Vec<PathBuf
     for entry in entries.flatten() {
         let path = entry.path();
 
+        // --allが指定されていない場合は隠し項目を除外する
         if !config.all && is_hidden(&path) {
             continue;
         }
 
-        if !path.is_file() {
-            continue;
-        }
-
-        if let Some(ref ext) = config.ext
-            && path.extension().and_then(|s| s.to_str()) != Some(ext.as_str())
-        {
-            continue;
+        // --extが指定された場合は、該当する拡張子のファイルだけを対象にする
+        if let Some(ref extension) = config.ext {
+            if !path.is_file()
+                || path.extension().and_then(|value| value.to_str()) != Some(extension.as_str())
+            {
+                continue;
+            }
         }
 
         let metadata = match entry.metadata() {
@@ -83,6 +86,7 @@ pub fn search_files(directory: &Path, config: &Config) -> io::Result<Vec<PathBuf
             Err(_) => continue,
         };
 
+        // 現在から指定期間以内に更新された項目だけを対象にする
         if let Some(duration) = config.since {
             let elapsed = now.duration_since(modified).unwrap_or(Duration::ZERO);
 
@@ -91,12 +95,14 @@ pub fn search_files(directory: &Path, config: &Config) -> io::Result<Vec<PathBuf
             }
         }
 
+        // 指定日時以降に更新された項目だけを対象にする
         if let Some(after) = config.after
             && modified < after
         {
             continue;
         }
 
+        // 指定日時以前に更新された項目だけを対象にする
         if let Some(before) = config.before
             && modified > before
         {
@@ -106,12 +112,81 @@ pub fn search_files(directory: &Path, config: &Config) -> io::Result<Vec<PathBuf
         results.push(path);
     }
 
-    results.sort();
+    // ファイル名を基準に、大文字と小文字を区別せず並べる
+    results.sort_by(|a, b| {
+        let a_name = file_name_string(a).to_lowercase();
+        let b_name = file_name_string(b).to_lowercase();
+
+        a_name
+            .cmp(&b_name)
+            .then_with(|| file_name_string(a).cmp(&file_name_string(b)))
+    });
 
     Ok(results)
 }
 
+/// 検索結果をターミナル幅に合わせて、lsのように列方向へ並べて表示します。
+fn print_columns(paths: &[PathBuf]) {
+    if paths.is_empty() {
+        return;
+    }
+
+    let names: Vec<String> = paths.iter().map(|path| file_name_string(path)).collect();
+
+    let column_width = names
+        .iter()
+        .map(|name| name.chars().count())
+        .max()
+        .unwrap_or(0)
+        + 2;
+
+    let terminal_width = terminal_size()
+        .map(|(Width(width), _)| usize::from(width))
+        .unwrap_or(80);
+
+    let columns = (terminal_width / column_width).max(1);
+    let rows = names.len().div_ceil(columns);
+
+    for row in 0..rows {
+        for column in 0..columns {
+            let index = column * rows + row;
+
+            if index >= names.len() {
+                continue;
+            }
+
+            let name = &names[index];
+
+            let has_next_item =
+                (column + 1..columns).any(|next_column| next_column * rows + row < names.len());
+
+            if has_next_item {
+                let padding = column_width.saturating_sub(name.chars().count());
+                print!("{name}{}", " ".repeat(padding));
+            } else {
+                print!("{name}");
+            }
+        }
+
+        println!();
+    }
+}
+
+/// パスからファイル名またはディレクトリ名を文字列として取得します。
+fn file_name_string(path: &Path) -> String {
+    path.file_name()
+        .map(|name| name.to_string_lossy().into_owned())
+        .unwrap_or_else(|| path.display().to_string())
+}
+
 /// `3d`や`12h`などの文字列を`Duration`へ変換します。
+///
+/// 対応している単位は以下です。
+///
+/// - `s`: 秒
+/// - `m`: 分
+/// - `h`: 時間
+/// - `d`: 日
 pub fn parse_duration(value: &str) -> Option<Duration> {
     if value.len() < 2 {
         return None;
@@ -137,7 +212,7 @@ pub fn parse_date(value: &str) -> Option<SystemTime> {
     Some(datetime.into())
 }
 
-/// ファイル名が`.`から始まるかを確認します。
+/// ファイル名またはディレクトリ名が`.`から始まるかを確認します。
 pub fn is_hidden(path: &Path) -> bool {
     path.file_name()
         .and_then(|name| name.to_str())
@@ -195,7 +270,25 @@ mod tests {
     }
 
     #[test]
+    fn hidden_directory_is_detected() {
+        assert!(is_hidden(Path::new(".git")));
+    }
+
+    #[test]
     fn normal_file_is_not_hidden() {
         assert!(!is_hidden(Path::new("README.md")));
+    }
+
+    #[test]
+    fn normal_directory_is_not_hidden() {
+        assert!(!is_hidden(Path::new("src")));
+    }
+
+    #[test]
+    fn file_name_is_extracted() {
+        assert_eq!(
+            file_name_string(Path::new("./README.md")),
+            "README.md".to_string()
+        );
     }
 }
