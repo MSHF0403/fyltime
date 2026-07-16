@@ -66,12 +66,11 @@ pub fn search_files(directory: &Path, config: &Config) -> io::Result<Vec<PathBuf
             continue;
         }
 
-        if let Some(ref extension) = config.ext {
-            if !path.is_file()
-                || path.extension().and_then(|value| value.to_str()) != Some(extension.as_str())
-            {
-                continue;
-            }
+        if let Some(ref extension) = config.ext
+            && (!path.is_file()
+                || path.extension().and_then(|value| value.to_str()) != Some(extension.as_str()))
+        {
+            continue;
         }
 
         let metadata = match entry.metadata() {
