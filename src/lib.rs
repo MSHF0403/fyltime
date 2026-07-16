@@ -62,12 +62,10 @@ pub fn search_files(directory: &Path, config: &Config) -> io::Result<Vec<PathBuf
     for entry in entries.flatten() {
         let path = entry.path();
 
-        // --allが指定されていない場合は隠し項目を除外する
         if !config.all && is_hidden(&path) {
             continue;
         }
 
-        // --extが指定された場合は、該当する拡張子のファイルだけを対象にする
         if let Some(ref extension) = config.ext {
             if !path.is_file()
                 || path.extension().and_then(|value| value.to_str()) != Some(extension.as_str())
@@ -86,7 +84,6 @@ pub fn search_files(directory: &Path, config: &Config) -> io::Result<Vec<PathBuf
             Err(_) => continue,
         };
 
-        // 現在から指定期間以内に更新された項目だけを対象にする
         if let Some(duration) = config.since {
             let elapsed = now.duration_since(modified).unwrap_or(Duration::ZERO);
 
@@ -95,14 +92,12 @@ pub fn search_files(directory: &Path, config: &Config) -> io::Result<Vec<PathBuf
             }
         }
 
-        // 指定日時以降に更新された項目だけを対象にする
         if let Some(after) = config.after
             && modified < after
         {
             continue;
         }
 
-        // 指定日時以前に更新された項目だけを対象にする
         if let Some(before) = config.before
             && modified > before
         {
@@ -112,7 +107,6 @@ pub fn search_files(directory: &Path, config: &Config) -> io::Result<Vec<PathBuf
         results.push(path);
     }
 
-    // ファイル名を基準に、大文字と小文字を区別せず並べる
     results.sort_by(|a, b| {
         let a_name = file_name_string(a).to_lowercase();
         let b_name = file_name_string(b).to_lowercase();
@@ -180,13 +174,6 @@ fn file_name_string(path: &Path) -> String {
 }
 
 /// `3d`や`12h`などの文字列を`Duration`へ変換します。
-///
-/// 対応している単位は以下です。
-///
-/// - `s`: 秒
-/// - `m`: 分
-/// - `h`: 時間
-/// - `d`: 日
 pub fn parse_duration(value: &str) -> Option<Duration> {
     if value.len() < 2 {
         return None;
