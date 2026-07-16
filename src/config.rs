@@ -16,18 +16,18 @@ pub struct Config {
 #[command(
     name = "fyt",
     version,
-    about = "更新日時や拡張子を条件としてファイルを検索します"
+    about = "更新日時や拡張子を条件としてファイルやディレクトリを検索します"
 )]
 pub struct Args {
-    /// 指定した期間以内に更新されたファイルを表示します
+    /// 指定した期間以内に更新された項目を表示します
     #[arg(long, value_name = "DURATION")]
     pub since: Option<String>,
 
-    /// 指定した日付以降に更新されたファイルを表示します
+    /// 指定した日付以降に更新された項目を表示します
     #[arg(long, value_name = "DATE")]
     pub after: Option<String>,
 
-    /// 指定した日付以前に更新されたファイルを表示します
+    /// 指定した日付以前に更新された項目を表示します
     #[arg(long, value_name = "DATE")]
     pub before: Option<String>,
 
@@ -35,7 +35,7 @@ pub struct Args {
     #[arg(long, value_name = "EXTENSION")]
     pub ext: Option<String>,
 
-    /// 隠しファイルを含めて表示します
+    /// 隠しファイルや隠しディレクトリを含めて表示します
     #[arg(short = 'a', long)]
     pub all: bool,
 
@@ -94,8 +94,16 @@ mod tests {
     }
 
     #[test]
-    fn parse_args_all() {
+    fn parse_args_all_long() {
         let args = Args::try_parse_from(["fyt", "--all"]).unwrap();
+        let config = args.to_config();
+
+        assert!(config.all);
+    }
+
+    #[test]
+    fn parse_args_all_short() {
+        let args = Args::try_parse_from(["fyt", "-a"]).unwrap();
         let config = args.to_config();
 
         assert!(config.all);
@@ -107,5 +115,21 @@ mod tests {
         let config = args.to_config();
 
         assert!(config.since.is_some());
+    }
+
+    #[test]
+    fn parse_args_after() {
+        let args = Args::try_parse_from(["fyt", "--after", "2026-01-01"]).unwrap();
+        let config = args.to_config();
+
+        assert!(config.after.is_some());
+    }
+
+    #[test]
+    fn parse_args_before() {
+        let args = Args::try_parse_from(["fyt", "--before", "2026-12-31"]).unwrap();
+        let config = args.to_config();
+
+        assert!(config.before.is_some());
     }
 }
